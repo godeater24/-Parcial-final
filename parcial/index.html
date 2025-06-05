@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Inventario</title>
+    <script defer src="js/app.js"></script>
+</head>
+<body>
+    <h1>Inventario - MVP</h1>
+    <section>
+        <h2>Registrar Producto</h2>
+        <input id="prodNombre" placeholder="Nombre del producto">
+        <input id="prodStock" type="number" placeholder="Stock inicial">
+        <button onclick="registrarProducto()">Registrar</button>
+    </section>
+
+    <section>
+        <h2>Registrar Pedido</h2>
+        <input id="pedidoNombre" placeholder="Producto">
+        <input id="pedidoCantidad" type="number" placeholder="Cantidad">
+        <button onclick="registrarPedido()">Registrar Pedido</button>
+    </section>
+
+    <section>
+        <h2>Stock</h2>
+        <ul id="listaStock"></ul>
+    </section>
+
+    <section>
+        <h2>Reportes</h2>
+        <button onclick="mostrarStockBajo()">Stock Bajo</button>
+        <button onclick="mostrarVentasRecientes()">Ventas Recientes</button>
+        <ul id="reporte"></ul>
+    </section>
+</body>
+</html>
