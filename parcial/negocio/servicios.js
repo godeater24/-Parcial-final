@@ -1,24 +1,19 @@
+import { datos } from '../datos/db.js';
 
-function agregarProducto(nombre, precio, cantidad) {
-  const nuevo = { nombre, precio, cantidad };
-  const productos = obtenerProductos();
-  productos.push(nuevo);
-  guardarProductos(productos);
+export function obtenerProductos() {
+  return datos.filter(p => p.estado === 'activo');
 }
 
-function obtenerProductos() {
-  return JSON.parse(localStorage.getItem("productos") || "[]");
+export function obtenerSuperiores() {
+  return datos.filter(p => p.estado === 'activo' && p.categoria === 'Superior');
 }
 
-function eliminarProductoPorIndice(index) {
-  const productos = obtenerProductos();
-  productos.splice(index, 1);
-  guardarProductos(productos);
+export function obtenerInferiores() {
+  return datos.filter(p => p.estado === 'activo' && p.categoria === 'Inferior');
 }
 
-function calcularTotal() {
-  const productos = obtenerProductos();
-  const totalCantidad = productos.reduce((sum, p) => sum + p.cantidad, 0);
-  const valorTotal = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
-  return { totalCantidad, valorTotal };
+export function calcularPrecioTotal() {
+  return datos
+    .filter(p => p.estado === 'activo')
+    .reduce((total, p) => total + p.precio, 0);
 }
