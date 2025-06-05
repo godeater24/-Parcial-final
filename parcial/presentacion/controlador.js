@@ -1,34 +1,44 @@
+import {
+  obtenerProductos,
+  obtenerSuperiores,
+  obtenerInferiores,
+  calcularPrecioTotal
+} from '../negocio/servicios.js';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("formProducto");
-  const lista = document.getElementById("listaProductos");
-  const resumen = document.getElementById("resumen");
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById("nombre").value;
-    const precio = parseFloat(document.getElementById("precio").value);
-    const cantidad = parseInt(document.getElementById("cantidad").value);
-    agregarProducto(nombre, precio, cantidad);
-    mostrarProductos();
-    form.reset();
+function renderizarProductos(lista) {
+  const contenedor = document.getElementById('productos');
+  contenedor.innerHTML = '';
+  lista.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'producto';
+    div.innerHTML = `
+      <h3>${p.nombre}</h3>
+      <p>Categoría: ${p.categoria}</p>
+      <p>Precio: $${p.precio}</p>
+    `;
+    contenedor.appendChild(div);
   });
+}
 
-  function mostrarProductos() {
-    const productos = obtenerProductos();
-    lista.innerHTML = productos.map((p, i) =>
-      `<p>${p.nombre} - $${p.precio} x ${p.cantidad}
-       <button onclick="eliminarProducto(${i})">Eliminar</button></p>`
-    ).join("");
+function renderizarTotal() {
+  const total = calcularPrecioTotal();
+  document.getElementById('total').innerText = `Total: $${total}`;
+}
 
-    const total = calcularTotal();
-    resumen.innerHTML = `<p>Total productos: ${total.totalCantidad}, Valor total: $${total.valorTotal}</p>`;
-  }
-
-  window.eliminarProducto = (index) => {
-    eliminarProductoPorIndice(index);
-    mostrarProductos();
-  };
-
-  mostrarProductos();
+document.getElementById('btnTodos').addEventListener('click', () => {
+  renderizarProductos(obtenerProductos());
+  renderizarTotal();
 });
+
+document.getElementById('btnSuperiores').addEventListener('click', () => {
+  renderizarProductos(obtenerSuperiores());
+});
+
+document.getElementById('btnInferiores').addEventListener('click', () => {
+  renderizarProductos(obtenerInferiores());
+});
+
+window.onload = () => {
+  renderizarProductos(obtenerProductos());
+  renderizarTotal();
+};
